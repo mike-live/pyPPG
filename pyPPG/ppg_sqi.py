@@ -27,9 +27,9 @@ def get_ppgSQI(ppg: list, fs: int, annotation: list):
     t,v = use_template(ppg, annotation-1, fs)
 
     c1 = np.empty(len(annotation)-1)
-    c1[:] = np.NaN
+    c1[:] = np.nan
     psqi = np.empty(len(annotation)-1)
-    psqi[:] = np.NaN
+    psqi[:] = np.nan
 
     for j in range (0,len(annotation) - 1):
         # Calculate correlation coefficients based on the template length

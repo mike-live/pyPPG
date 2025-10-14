@@ -53,7 +53,7 @@ class PulseWaveAnal:
                     exec("error['" + n + "'] =1")
                     #print('\n'+n + ' error: ', name)
                 elif eval("ref_" + n + ".size") < 1 and n != 'on':
-                    exec("ref_" + n + "= np.array(np.NaN)")
+                    exec("ref_" + n + "= np.array(np.nan)")
                     exec("error['" + n + "'] =1")
                     #print(n + ' error: ', name)
             except:
@@ -374,7 +374,7 @@ class PulseWaveAnal:
             exec(n + "r=[]")
             exec("dist_" + n + "=[]")
             temp_v = np.empty(set_len)
-            temp_v[:] = np.NaN
+            temp_v[:] = np.nan
             dist_error[n] = temp_v
             ref1_fps[n] = temp_v
             ref2_fps[n] = temp_v
@@ -554,9 +554,9 @@ class PulseWaveAnal:
                     s.name=''.join(s.name)
                     plt_sig = 1
                     r = dict(reference.iloc[n].apply(pd.to_numeric, errors='coerce').astype('Int32'))
-                    ref_fp = pd.DataFrame([{key: np.NaN if pd.isna(value) else value for key, value in r.items()}])
+                    ref_fp = pd.DataFrame([{key: np.nan if pd.isna(value) else value for key, value in r.items()}])
                     d = dict(detection.iloc[n].apply(pd.to_numeric, errors='coerce').astype('Int32'))
-                    det_fp = pd.DataFrame([{key: np.NaN if pd.isna(value) else value for key, value in d.items()}])
+                    det_fp = pd.DataFrame([{key: np.nan if pd.isna(value) else value for key, value in d.items()}])
                     if plt_sig:
                         self.plot_pulse_wave(s=s, fp1=ref_fp, fp2=det_fp, d_error=dist_error.iloc[n].to_dict(), compare=False,
                             show_fig=False, dname=dname, annot1=annotator, annot2='', detector=detector)
