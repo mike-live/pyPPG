@@ -35,7 +35,7 @@ heartpy==1.2.7
 idna==3.4
 joblib==1.2.0
 kiwisolver==1.4.4
-matplotlib==3.6.1
+matplotlib==3.6.2
 mpldatacursor==0.7.1
 packaging==21.3
 parallel-map==0.2.1
