@@ -156,13 +156,24 @@ class FpCollection:
 
         # detect peaks in windows
         all_p4 = []
-        all_hr = np.empty(len(win_starts)-1)
+        all_hr = np.empty(len(win_starts))#np.empty(len(win_starts)-1)
         all_hr [:] = np.NaN
         hr_past = 0 # the actual heart rate
         hrvi = 0    # heart rate variability index
 
-        for win_no in range(0,len(win_starts) - 1):
-            curr_els = range(win_starts[win_no],win_starts[win_no] + w)
+        for win_no in range(0,len(win_starts)): #-1
+            # curr_els = range(win_starts[win_no],win_starts[win_no] + w)
+            if win_no == len(win_starts) - 1: 
+                start_idx = win_starts[win_no]
+                end_idx = len(x) - 1
+                
+                if start_idx >= end_idx:
+                    continue
+                    
+                curr_els = range(start_idx, end_idx)
+            else:
+                curr_els = range(win_starts[win_no], win_starts[win_no] + w)
+
             curr_x = x[curr_els]
 
             y1 = self.def_bandpass(curr_x, fs, 0.9 * up.fl_hz, 3 * up.fh_hz)   # Filter no.1
@@ -208,9 +219,10 @@ class FpCollection:
 
         peaks, fn = self.correct_IBI(all_p4, px, np.median(all_hr), fs, up)
 
+        peaks.append(px[-1])
         peaks = (all_p4/fs*fso).astype(int)
-        onsets, peaks = self.find_onsets(self.ppg, fso, up, peaks,60/np.median(all_hr)*fs)
-
+        onsets, peaks = self.find_onsets(self.ppg, fso, up, peaks, 60/np.median(all_hr)*fs)
+        
         # Correct Peaks
         for i in range(0, len(peaks) - 1):
             max_loc = np.argmax(self.ppg[onsets[i]:onsets[i + 1]]) + onsets[i]
@@ -620,7 +632,7 @@ class FpCollection:
     ###########################################################################
     ####################### Correct peaks' location error #####################
     ###########################################################################
-    def  correct_IBI(self, p: np.array, m: np.array, hr: float, fs: int, up: DotMap):
+    def correct_IBI(self, p: np.array, m: np.array, hr: float, fs: int, up: DotMap):
         """
         This function corrects the peaks' location (interbeat intervals) error
 
